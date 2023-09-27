@@ -1,11 +1,7 @@
 import './spinner.css'
-function Spinner() {
-    return (
-        <>
-            <h1 className="SPIN"></h1>
-            <h2>Loading...</h2>
-        </>
-    )
+
+function spinner() {
+    return <div data-abs="true" className="spinner"></div>
 }
 
-export default Spinner
+export default spinner
