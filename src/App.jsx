@@ -6,7 +6,7 @@ function App() {
   const [lat, setLat] = useState(0)
   const [long, setLong] = useState(0)
   const [weatherData, setWData] = useState([])
-  let pastCoords = localStorage.getItem('pastCoords')
+
 
   useEffect(() => {
     // 1. Get location from browser
@@ -19,35 +19,32 @@ function App() {
 
     async function fetchWeather() {
 
-      if (pastCoords[0] === lat || pastCoords[1] === long) {
-        console.log('fem')
-      }
       navigator.geolocation.getCurrentPosition((position) => {
         setLat(position.coords.latitude)
         setLong(position.coords.longitude)
-        console.log('Last coords ' + pastCoords)
         localStorage.setItem('pastCoords', [lat, long])
+        localStorage.setItem('currentCoords', [lat, long])
       })
 
       console.log('before fetch: ' + lat, long)
+
       if (lat === 0 || long === 0) {
+        setWData([])
         return
       }
-
-
-
       const baseUrl = 'https://api.openweathermap.org/data/2.5/weather?'
       await fetch(`${baseUrl}lat=${lat}&lon=${long}&appid=${import.meta.env.VITE_API_KEY}`)
         .then(res => res.json())
         .then(result => {
           console.log(result)
           setWData(result)
+          localStorage.setItem('weather', result)
         }).catch(err => {
           console.log(err)
         })
     }
     fetchWeather()
-  }, [lat, long, pastCoords])
+  }, [lat, long])
 
   return (
     <>
@@ -57,7 +54,7 @@ function App() {
           <>
             <h2>City: {weatherData.name}</h2>
             <h2>Temp: {(weatherData.main.temp - 273.15).toFixed(2)} degrees C</h2>
-            <h2>Cords: {pastCoords[0]} and {pastCoords[1]}</h2>
+            <h2>Cords: {localStorage.getItem('currentCoords')}</h2>
           </>
         ) : (
           <Spinner />

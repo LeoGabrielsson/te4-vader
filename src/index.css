@@ -1,6 +1,6 @@
 :root {
-  --color-bg: #404040;
-  --color-fg: #d5d6ee;
+  --color-bg: #272728;
+  --color-fg: #c5b9ba;
   --color-accent: #5452d5;
   --space-xs: clamp(0.75rem, 0.69rem + 0.29vw, 0.9375rem);
   --space-s: clamp(1rem, 0.92rem + 0.39vw, 1.25rem);
